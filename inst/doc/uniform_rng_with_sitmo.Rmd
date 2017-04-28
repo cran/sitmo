@@ -1,10 +1,10 @@
 ---
-title: "Making a Uniform PRNG with sitmo"
+title: "Making a Uniform PRNG with `sitmo`"
 author: "James Balamuta"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Making a Uniform PRNG with sitmo}
+  %\VignetteIndexEntry{Making a Uniform PRNG with `sitmo`}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -19,7 +19,7 @@ Many of the random number generators for various distributions rely on the Proba
 
 **Theorem**
 
-Let $X$ be a random variable that has a cumulative distribution function (CDF) of $F_X\left({x}\right)$. Then, define random variable $U = F_X\left({x}\right)$. Thus, $U$ is a uniform distribution.
+Let $X$ be a random variable that has a cumulative distribution function (CDF) of $F_X\left({x}\right)$. Then, define random variable $U = F_X\left({X}\right)$. Thus, $U$ is a uniform distribution.
 
 **Proof**
 
@@ -27,8 +27,8 @@ Given any random variable **X**, define $U = F_X\left({x}\right)$. Then:
 
 \[\begin{align*}
 F_U\left({u}\right) &= P\left( {U \le u} \right) \\
-   &= P\left( {{F_X}\left( x \right) \le u} \right) \\
-   &= P\left( {U \le F_X^{ - 1}\left( u \right)} \right) \\
+   &= P\left( {{F_X}\left( X \right) \le u} \right) \\
+   &= P\left( {X \le F_X^{ - 1}\left( u \right)} \right) \\
    &= {F_X}\left( {F_X^{ - 1}\left( u \right)} \right) \\
    &= u \\ 
 \end{align*} \]
@@ -72,7 +72,7 @@ The basics of creating a random uniform distribution are as follows:
 
 1. The generation of random numbers $R$ (e.g. 18885, 23945734, 4298034852, and so on)
 2. The known maximum/ceiling of the random number generation $\max\left(R\right)$ (e.g. `sitmo::prng_engine::max()` or `SITMO_RAND_MAX`) 
-3. The ability to scale the randomly generated number between $U[a,b]$.
+3. The ability to scale the randomly generated number between $[a,b]$.
 
 `sitmo` provides a high quality version of 1. as shown informally in the next section and a means of acquiring 2. Thus, one is only left with creating the correct scaling equation. In particular, this equation is governed by:
 
@@ -81,6 +81,9 @@ The basics of creating a random uniform distribution are as follows:
 The implementation of this using sitmo is given as follows:
 
 ```{r unif, eval = F, engine='Rcpp'}
+#include <Rcpp.h>
+#include <sitmo.h>
+
 //' Random Uniform Number Generator with sitmo
 //' 
 //' The function provides an implementation of sampling from a random uniform distribution
@@ -133,12 +136,12 @@ n = 1e6
 nseeds = 30
 
 # Storage for seed number and the correlation of the realizations between generators. 
-cppdf = data.frame(s1=numeric(nseeds), s2=numeric(nseeds),
-                   cor=numeric(nseeds), stringsAsFactors = F)
+cppdf = data.frame(s1 = numeric(nseeds), s2 = numeric(nseeds),
+                   cor = numeric(nseeds), stringsAsFactors = F)
 
 # Generate observations under the seeds
 count = 0
-for(i in 1:nseeds){
+for(i in seq_len(nseeds)){
   for(j in i:nseeds){
     u1 = runif_sitmo(n, 0.0, 1.0, i)
     u2 = runif_sitmo(n, 0.0, 1.0, j)
@@ -152,9 +155,9 @@ We can visualize the data by using a correlation graph. In this case, the genera
 
 ```{r corr_plot, fig.width = 7, fig.height = 4}
 # Create Correlation Plot
-ggplot(cppdf) + geom_tile(aes(x = s1, y = s2, fill=cor)) +
+ggplot(cppdf) + geom_tile(aes(x = s1, y = s2, fill = cor)) +
   xlab("Seed 1") + ylab("Seed 2") + 
-  ggtitle("Correlations between seed realizations using `sitmo`")
+  ggtitle("Correlations between seed realizations using `sitmo`") + theme_bw()
 ```
 
 Observing the correlation graph, we note that the pattern predicted - only correlation on the diagonal - exists. Thus, the generation under these seeds are ideal. 
