@@ -11,7 +11,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 
-<meta name="date" content="2017-04-27" />
+<meta name="date" content="2017-06-25" />
 
 <title>Deployment of sitmo within C++ Code</title>
 
@@ -68,11 +68,11 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 
 <h1 class="title toc-ignore">Deployment of <code>sitmo</code> within C++ Code</h1>
-<h4 class="date"><em>2017-04-27</em></h4>
+<h4 class="date"><em>2017-06-25</em></h4>
 
 
 
-<p>Within this vignette, details on how to use <a href="http://www.sitmo.com/article/parallel-random-number-generator-in-c/">sitmo</a>’s header will be detailed. First, the background on <code>sitmo</code> will be provided Secondly, function calls will be shown alongside of a description. Thirdly, examples will be provided of how one can use the <code>sitmo</code> header.</p>
+<p>Within this vignette, details on how to use <a href="http://www.sitmo.com/article/parallel-random-number-generator-in-c/">sitmo</a>’s header will be detailed. First, the background on <code>sitmo</code> will be provided. Secondly, function calls will be shown alongside of a description. Thirdly, examples will be provided of how one can use the <code>sitmo</code> header.</p>
 <div id="what-is-sitmo-and-can-i-eat-it" class="section level1">
 <h1>What is <code>sitmo</code> and can I eat it?</h1>
 <p><code>sitmo</code> is a Parallel Psuedo Random Number Generator (PPRNG) that was conceived by Thijs van den Berg after reading Salmon, K., et al.’s “Parallel Random Numbers: As Easy as 1, 2, 3” in the conference proceedings of the 2011 International Conference for High Performance Computing, Networking, Storage and Analysis. Support for <code>sitmo</code> exists for both C++ standards: C++98 and C++11. Furthermore, there are many different PPRNGs that are available: <a href="https://www.numbercrunch.de/trng/">trng</a>, <a href="http://www.sprng.org/">SPRNG</a>, <a href="http://statmath.wu.ac.at/software/RngStreams/doc/rngstreams.html">RngStreams</a>, <a href="http://homepage.stat.uiowa.edu/~mbognar/omprng/">OMPRNG</a>. However, none are as appealing in my eyes than <a href="http://www.sitmo.com/article/parallel-random-number-generator-in-c/">sitmo</a>, which provides a straight forward interface to generating psuedo-random numbers (RNG), the least restrictive license (MIT), and speed.</p>
@@ -82,7 +82,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <p>The <code>sitmo</code> header file is contained within this package. To use the <code>sitmo</code> header within your own package, you can link to this package within your description file. e.g.</p>
 <pre><code>LinkingTo: Rcpp, sitmo
 Imports:
-    Rcpp (&gt;= 0.12.10)</code></pre>
+    Rcpp (&gt;= 0.12.11)</code></pre>
 <p>To use C++11’s statistical distributions, you <strong>may</strong> want to add the following to your <code>src/Makevars</code> and <code>src/Makevars.win</code> file:</p>
 <pre><code>CXX_STD = CXX11</code></pre>
 <p>Within the <code>C++</code> file, then add:</p>
@@ -201,6 +201,8 @@ sitmo::prng_engine e;</code></pre></div>
 <p>Below is the most rudimentary example using <code>sitmo</code>. It describes the process of creating a <code>sitmo</code> engine and obtaining a draw.</p>
 <div class="sourceCode"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="pp">#include </span><span class="im">&lt;sitmo.h&gt;</span><span class="pp"> </span><span class="co">// SITMO PPRNG</span>
 
+<span class="co">// [[Rcpp::depends(sitmo)]]</span>
+
 <span class="co">//' Example RNG Draws with sitmo</span>
 <span class="co">//' </span>
 <span class="co">//' Shows a basic setup and use case for sitmo. </span>
@@ -230,6 +232,9 @@ Rcpp::NumericVector sitmo_draws(<span class="dt">unsigned</span> <span class="dt
 <h3>Setting a Seed</h3>
 <p>Here the ability for a seed to be set is used.</p>
 <div class="sourceCode"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="pp">#include </span><span class="im">&lt;sitmo.h&gt;</span><span class="pp"> </span><span class="co">// SITMO PPRNG</span>
+
+<span class="co">// [[Rcpp::depends(sitmo)]]</span>
+
 
 <span class="co">//' Example Seed Set and RNG Draws with sitmo</span>
 <span class="co">//' </span>
@@ -267,6 +272,8 @@ Rcpp::NumericVector sitmo_engine_seed(<span class="dt">unsigned</span> <span cla
 <h3>Reset RNG engine</h3>
 <p>The code used here can be found to work when the initial state of the engine needs to be reverted.</p>
 <div class="sourceCode"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="pp">#include </span><span class="im">&lt;sitmo.h&gt;</span><span class="pp"> </span><span class="co">// SITMO PPRNG</span>
+
+<span class="co">// [[Rcpp::depends(sitmo)]]</span>
 
 <span class="co">//' Example Seed Set and RNG Draws with sitmo</span>
 <span class="co">//' </span>
@@ -309,6 +316,9 @@ Rcpp::NumericMatrix sitmo_engine_reset(<span class="dt">unsigned</span> <span cl
 <h3>Two RNG Streams</h3>
 <p>This example displays the ability of <code>sitmo</code> to handle parallel streams of rng when a predefined number of streams is known.</p>
 <div class="sourceCode"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="pp">#include </span><span class="im">&lt;sitmo.h&gt;</span><span class="pp"> </span><span class="co">// SITMO PPRNG</span>
+
+<span class="co">// [[Rcpp::depends(sitmo)]]</span>
+
 
 <span class="co">//' Two RNG engines running side-by-side</span>
 <span class="co">//' </span>
@@ -355,7 +365,11 @@ Rcpp::NumericMatrix sitmo_two_seeds(<span class="dt">unsigned</span> <span class
 <div id="uniform-random-number-generator" class="section level3">
 <h3>Uniform Random Number Generator</h3>
 <p>Under C++98, one does not have access to the C++11 implementation of the Uniform distribution. This is particularly problematic as a lot of the distribution RNG rely upon being able to sample from <span class="math inline">\(\left[0,1\right]\)</span> ala the Probability Integral Transformation Theorem. Additional details are discussed in a separate vignette (“Making a Uniform PRNG with sitmo”).</p>
-<div class="sourceCode"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="co">//' Random Uniform Number Generator with sitmo</span>
+<div class="sourceCode"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="pp">#include </span><span class="im">&lt;sitmo.h&gt;</span><span class="pp"> </span><span class="co">// SITMO PPRNG</span>
+
+<span class="co">// [[Rcpp::depends(sitmo)]]</span>
+
+<span class="co">//' Random Uniform Number Generator with sitmo</span>
 <span class="co">//' </span>
 <span class="co">//' The function provides an implementation of sampling from a random uniform distribution</span>
 <span class="co">//' </span>
@@ -405,9 +419,14 @@ Rcpp::NumericVector runif_sitmo(<span class="dt">unsigned</span> <span class="dt
 <div class="sourceCode"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="pp">#include </span><span class="im">&lt;Rcpp.h&gt;</span>
 <span class="pp">#include </span><span class="im">&lt;sitmo.h&gt;</span><span class="pp"> </span><span class="co">// SITMO PPRNG</span>
 
+<span class="co">// [[Rcpp::depends(sitmo)]]</span>
+
 <span class="pp">#ifdef _OPENMP</span>
 <span class="pp">#include </span><span class="im">&lt;omp.h&gt;</span>
 <span class="pp">#endif</span>
+
+<span class="co">// [[Rcpp::plugins(openmp)]]</span>
+
 
 <span class="co">//' Test Generation using sitmo and C++11</span>
 <span class="co">//' </span>
@@ -483,7 +502,7 @@ Rcpp::NumericVector sitmo_parallel(<span class="dt">unsigned</span> <span class=
   (function () {
     var script = document.createElement("script");
     script.type = "text/javascript";
-    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
     document.getElementsByTagName("head")[0].appendChild(script);
   })();
 </script>

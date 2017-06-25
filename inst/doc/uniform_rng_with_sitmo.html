@@ -12,7 +12,7 @@
 
 <meta name="author" content="James Balamuta" />
 
-<meta name="date" content="2017-04-27" />
+<meta name="date" content="2017-06-25" />
 
 <title>Making a Uniform PRNG with sitmo</title>
 
@@ -70,7 +70,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 <h1 class="title toc-ignore">Making a Uniform PRNG with <code>sitmo</code></h1>
 <h4 class="author"><em>James Balamuta</em></h4>
-<h4 class="date"><em>2017-04-27</em></h4>
+<h4 class="date"><em>2017-06-25</em></h4>
 
 
 
@@ -80,23 +80,23 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <p><strong>Theorem</strong></p>
 <p>Let <span class="math inline">\(X\)</span> be a random variable that has a cumulative distribution function (CDF) of <span class="math inline">\(F_X\left({x}\right)\)</span>. Then, define random variable <span class="math inline">\(U = F_X\left({X}\right)\)</span>. Thus, <span class="math inline">\(U\)</span> is a uniform distribution.</p>
 <p><strong>Proof</strong></p>
-<p>Given any random variable <strong>X</strong>, define <span class="math inline">\(U = F_X\left({x}\right)\)</span>. Then:</p>
+<p>Given any random variable <strong>X</strong>, define <span class="math inline">\(U = F_X\left({X}\right)\)</span>. Then:</p>
 <p><span class="math display">\[\begin{align*}
 F_U\left({u}\right) &amp;= P\left( {U \le u} \right) \\
    &amp;= P\left( {{F_X}\left( X \right) \le u} \right) \\
    &amp;= P\left( {X \le F_X^{ - 1}\left( u \right)} \right) \\
    &amp;= {F_X}\left( {F_X^{ - 1}\left( u \right)} \right) \\
    &amp;= u \\ 
-\end{align*} \]</span></p>
+\end{align*}\]</span></p>
 <p>Therefore, <span class="math inline">\(F_U\left({u}\right)\)</span> is the CDF of a Uniform(0,1) RV. Hence, <span class="math inline">\(U\)</span> has a uniform distribution on <span class="math inline">\([0,1]\)</span>.</p>
 </div>
 <div id="random-uniform-distribution-runif-in-c" class="section level1">
 <h1>Random Uniform Distribution (runif) in C++</h1>
 <p>Within the R/C++ API, there are three ways one can use a random uniform distribution.</p>
-<ol style="list-style-type: decimal">
+<ul>
 <li>Through the use of <code>Rcpp</code>’s hook into the <code>Rmath.h</code> library that controls random generation via <code>R::runif(a,b)</code> or Rcpp’s sugar <code>Rcpp::runif(n,a,b)</code>.</li>
 <li>By using C++11’s <a href="http://en.cppreference.com/w/cpp/numeric/random">built-in generators and statistical distributions</a> to create a uniform real random variable generator.</li>
-</ol>
+</ul>
 <div class="sourceCode"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="pp">#include </span><span class="im">&lt;Rcpp.h&gt;</span>
 <span class="pp">#include </span><span class="im">&lt;random&gt;</span>
 
@@ -116,9 +116,9 @@ F_U\left({u}\right) &amp;= P\left( {U \le u} \right) \\
     <span class="cf">for</span> (<span class="dt">unsigned</span> <span class="dt">int</span> i=<span class="dv">0</span>; i&lt;n; ++i)
         Rcpp:Rcout &lt;&lt; dist(mt) &lt;&lt; <span class="bu">std::</span>endl;
 }</code></pre></div>
-<ol start="3" style="list-style-type: decimal">
+<ul>
 <li>Creating your own RNG!</li>
-</ol>
+</ul>
 <p>With this being said, we opt to focus the remainder of this vignette on the creation of an RNG.</p>
 </div>
 <div id="creating-a-random-uniform-distribution" class="section level1">
@@ -134,6 +134,8 @@ F_U\left({u}\right) &amp;= P\left( {U \le u} \right) \\
 <p>The implementation of this using sitmo is given as follows:</p>
 <div class="sourceCode"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="pp">#include </span><span class="im">&lt;Rcpp.h&gt;</span>
 <span class="pp">#include </span><span class="im">&lt;sitmo.h&gt;</span>
+
+<span class="co">// [[Rcpp::depends(sitmo)]]</span>
 
 <span class="co">//' Random Uniform Number Generator with sitmo</span>
 <span class="co">//' </span>
@@ -161,7 +163,7 @@ Rcpp::NumericVector runif_sitmo(<span class="dt">unsigned</span> <span class="dt
   <span class="co">// Obtain the range between max and min</span>
   <span class="dt">double</span> dis = max - min; 
   
-  <span class="cf">for</span>(<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; n; ++i) {
+  <span class="cf">for</span>(<span class="dt">unsigned</span> <span class="dt">int</span> i = <span class="dv">0</span>; i &lt; n; ++i) {
     <span class="co">// Sample from the RNG and divide it by the maximum value possible </span>
     <span class="co">// (c.f. SITMO_RAND_MAX, which is 4294967295)</span>
     <span class="co">// Apply appropriate scale dis = (MAX-MIN) and add min starting loc</span>
@@ -211,7 +213,7 @@ count =<span class="st"> </span><span class="dv">0</span>
   (function () {
     var script = document.createElement("script");
     script.type = "text/javascript";
-    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
     document.getElementsByTagName("head")[0].appendChild(script);
   })();
 </script>
