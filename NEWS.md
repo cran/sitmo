@@ -1,14 +1,22 @@
+# sitmo 1.2.1
+
+## BUGFIXES
+
+- Removed extra ; in sitmo header to quiet compile warnings (#4, thanks @helske)
+- Updated `sitmo_two_seeds()` src and documentation in "Deployment of `sitmo` within C++ Code"
+  so that it uses the second seed for eng2 and returns an n x 2 matrix instead of n x 3. (#5, thanks @helske)
+
 # sitmo 1.2.0
 
 ## CHANGES
 
 - Added plugin registration for `Rcpp:::Rcpp.plugin.maker()` (#3)
-- Added `cxx_flags()` and `sitmo_cxx_flags()` functions to display `CXX_FLAGS`
+- Added `CxxFlags()` and `sitmoCxxFlags()` functions to display `CXX_FLAGS`
   required by `sitmo`. (#3)
 - Updated examples in README.Rmd and SITMO internal vignette to 
   use the Rcpp depends attribute. (#3)
 
-## BUGFIX
+## BUGFIXES
 
 - Corrected a signed and unsigned integer comparison in 
   "Making a Uniform PRNG with `sitmo`" vignette.

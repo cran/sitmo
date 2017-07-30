@@ -1,7 +1,7 @@
 Package: sitmo
 Title: Parallel Pseudo Random Number Generator (PPRNG) 'sitmo' Header
         Files
-Version: 1.2.0
+Version: 1.2.1
 Authors@R: c(person("James", "Balamuta", email = "balamut2@illinois.edu", role = c("aut", "cre", "cph")),
              person("Thijs","van den Berg", email = "thijs@sitmo.com", role = c("aut", "cph")))
 Description: Provided within is a high quality and fast PPRNG that is able to be used in an 'OpenMP' parallel
@@ -22,9 +22,9 @@ RoxygenNote: 6.0.1
 Suggests: knitr, rmarkdown, ggplot2
 VignetteBuilder: knitr
 NeedsCompilation: yes
-Packaged: 2017-06-25 22:11:09 UTC; agentxyz
+Packaged: 2017-07-30 19:06:40 UTC; ronin
 Author: James Balamuta [aut, cre, cph],
   Thijs van den Berg [aut, cph]
 Maintainer: James Balamuta <balamut2@illinois.edu>
 Repository: CRAN
-Date/Publication: 2017-06-25 22:36:59 UTC
+Date/Publication: 2017-07-30 22:52:29 UTC

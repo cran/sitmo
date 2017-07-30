@@ -11,7 +11,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 
-<meta name="date" content="2017-06-25" />
+<meta name="date" content="2017-07-30" />
 
 <title>Deployment of sitmo within C++ Code</title>
 
@@ -68,7 +68,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 
 <h1 class="title toc-ignore">Deployment of <code>sitmo</code> within C++ Code</h1>
-<h4 class="date"><em>2017-06-25</em></h4>
+<h4 class="date"><em>2017-07-30</em></h4>
 
 
 
@@ -329,9 +329,9 @@ Rcpp::NumericMatrix sitmo_engine_reset(<span class="dt">unsigned</span> <span cl
 <span class="co">//' @return A \code{matrix} with random sequences. </span>
 <span class="co">//' @examples</span>
 <span class="co">//' n = 10</span>
-<span class="co">//' a = sitmo_engine_seed(n, c(1337,1338))</span>
+<span class="co">//' a = sitmo_two_seeds(n, c(1337,1338))</span>
 <span class="co">//' </span>
-<span class="co">//' b = sitmo_engine_seed(n, c(1337,1337))</span>
+<span class="co">//' b = sitmo_two_seeds(n, c(1337,1337))</span>
 <span class="co">//' </span>
 <span class="co">//' isTRUE(all.equal(a[,1],a[,2]))</span>
 <span class="co">//' </span>
@@ -344,14 +344,14 @@ Rcpp::NumericMatrix sitmo_two_seeds(<span class="dt">unsigned</span> <span class
   <span class="cf">if</span>(seeds.size() != <span class="dv">2</span>) Rcpp::stop(<span class="st">&quot;Need exactly two seeds for this example.&quot;</span>);
   
   <span class="co">// Create Rcpp Matrix</span>
-  Rcpp::NumericMatrix o(n,<span class="dv">3</span>);
+  Rcpp::NumericMatrix o(n,<span class="dv">2</span>);
   
   <span class="co">// Create a prng engine with a specific seed</span>
   sitmo::prng_engine eng1;
   eng1.seed(seeds(<span class="dv">0</span>));
   
   sitmo::prng_engine eng2;
-  eng1.seed(seeds(<span class="dv">1</span>));
+  eng2.seed(seeds(<span class="dv">1</span>));
 
   <span class="co">// Draw from base engine</span>
   <span class="cf">for</span> (<span class="dt">unsigned</span> <span class="dt">int</span> i=<span class="dv">0</span>; i&lt; n ; ++i){
