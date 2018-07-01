@@ -1,16 +1,16 @@
-## #include <sitmo.h> // SITMO PPRNG
+## #include <Rcpp.h>
 
-## // Generate engine called e.
+## // Generate engine called eng_org.
 
-## #include <sitmo.h> // SITMO PPRNG
+## #include <Rcpp.h>
 
-## #include <sitmo.h> // SITMO PPRNG
+## #include <Rcpp.h>
 
-## #include <sitmo.h> // SITMO PPRNG
+## #include <Rcpp.h>
 
-## #include <sitmo.h> // SITMO PPRNG
+## #include <Rcpp.h>
 
-## #include <sitmo.h> // SITMO PPRNG
+## #include <Rcpp.h>
 
 ## #ifdef _OPENMP
 
