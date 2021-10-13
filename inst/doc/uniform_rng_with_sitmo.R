@@ -1,7 +1,7 @@
-## ----setup, include=FALSE------------------------------------------------
+## ----setup, include=FALSE-----------------------------------------------------
 knitr::opts_chunk$set(echo = TRUE)
 
-## ----correlation---------------------------------------------------------
+## ----correlation--------------------------------------------------------------
 # Load packages
 library(ggplot2)
 library(sitmo)
@@ -27,7 +27,7 @@ for(i in seq_len(nseeds)){
   }
 }
 
-## ----corr_plot, fig.width = 7, fig.height = 4----------------------------
+## ----corr_plot, fig.width = 7, fig.height = 4---------------------------------
 # Create Correlation Plot
 ggplot(cppdf) + geom_tile(aes(x = s1, y = s2, fill = cor)) +
   xlab("Seed 1") + ylab("Seed 2") + 
